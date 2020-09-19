@@ -57,7 +57,7 @@ def videoEntryKnown(video):
     return len(rows)
 
 def videoHasBeenPostedRecently(video):
-    sql = "SELECT video_id FROM videos WHERE video_id IN (SELECT video_id FROM videos ORDER BY id DESC LIMIT 25) AND video_id=?"
+    sql = "SELECT * FROM videos WHERE video_id=? AND id IN (SELECT id FROM videos ORDER BY id DESC LIMIT 25)"
     c = db.execute(sql, (video['yt'],))
     rows = c.fetchall()
     return len(rows)
@@ -78,8 +78,9 @@ def insertVideo(video):
     db.execute(sql, (video['tid'], video['pid'], video['yt'], video['date'],))
     db.commit()
 
+    
     if(videoHasBeenPostedRecently(video)>1):
-        print("recent video_id", video)
+        print("recent video_id", video, rows)
         return False
 
     if(tooManyVidsPerPost(video)>3):
