@@ -80,7 +80,7 @@ def insertVideo(video):
 
     
     if(videoHasBeenPostedRecently(video)>1):
-        print("recent video_id", video, rows)
+        print("recent video_id", video)
         return False
 
     if(tooManyVidsPerPost(video)>3):
